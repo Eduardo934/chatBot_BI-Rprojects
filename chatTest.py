@@ -7,12 +7,12 @@ import os
 # -----------------------------
 # Configuration
 # -----------------------------
-API_KEY = "[CHATGPT-API-KEY]"
+API_KEY = "[CHATGTP-API-KEY]"
 MODEL = "gpt-4o"
 DB_PATH = "example.db"
 
 # Fix SSL (only if needed)
-#os.environ["SSL_CERT_FILE"] = "C:/Users/81014284/AppData/Local/.certifi/cacert.pem"
+os.environ["SSL_CERT_FILE"] = "C:/Users/81014284/AppData/Local/.certifi/cacert.pem"
 
 # Initialize clients
 client = OpenAI(api_key=API_KEY)
@@ -28,17 +28,35 @@ def generate_sql(question: str) -> dict:
     system_prompt = "You are a helpful database assistant."
 
     user_prompt = f"""
-    Database: SQLite table 'BIandRproject'
+    Consider the below database descripton.
 
-    Columns:
-    Manager, Department, Deliverables, Data_Sources, Business_Impact,
-    KPIs, Project_Name, Objective, Priority, Problem_Solved,
-    Project_Type, Responsable, Stakeholders, Business_Unit
+        Database Description: This a sqlite database that includes a dataset called 'BIandRproject', it contains a list of analytics and reporting projects developed across different departments.  
+        Each record represents a project or dashboard initiative designed to improve operational visibility, track key metrics, and support strategic decision-making.
+
+        Dataset Structure:
+        - Manager: Manager responsible for the project portfolio.
+        - Department: Department or team where the project belongs (e.g., Sales, Supply Chain).
+        - Deliverables: Description of the final output or update frequency (e.g., dashboard updated weekly).
+        - Data_Sources: Type of data source used (Code, Excel, Database).
+        - Business_Impact: Explanation of how the project benefits operations or decision-making.
+        - KPIs: Main goal of the KPI and descriptions.
+        - Project_Name: Name of the project.
+        - Objective: Main goal of the project.
+        - Priority	Priority level assigned to the project.
+        - Problem_Solved: Operational issue or gap addressed by the project.
+        - Project_Type: Type of solution (e.g., Dashboard, Power App).
+        - Responsable: Person responsible for developing or maintaining the project.
+        - Stakeholders: Groups or roles that use the project outputs.
+        - Business_Unit: Business unit associated with the project (e.g., PFNA, PBNA).
+
+        Print a json file that include the SQL query that respond this business question '{question}', and the justification of your query. 
+        Consider that the columns in the database are case-sensite which can affect the query you write and consider that Project_Name, Objective, Problem_Solved and KPIs complement each other about project context.
 
     Task:
     - Create a SQL query to answer: "{question}"
     - Database is case-sensitive
     - Return JSON only
+    - Consider that "Problem_Solved" and "KPIs" complement each other to explain project context.
 
     Format:
     {{
