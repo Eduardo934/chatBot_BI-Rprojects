@@ -95,18 +95,14 @@ def run_sql(query: str):
 def generate_answer(question: str, sql: str, data):
     """Generate final user-friendly answer."""
 
-    system_prompt = "You are a helpful assistant."
+    system_prompt = "You're a helpful assistant that has access to a database with info about analytics and reporting projects developed across different departments."
 
     user_prompt = f"""
-    Question: {question}
+    <instructions>
+        You will answer the question '{question}' by considerig the information provided, where {sql} is the sql code you used and to retrieve the data: {data}
 
-    SQL used:
-    {sql}
-
-    Data:
-    {data}
-
-    Provide a clear, concise answer.
+        Provide a clear, concise answer.
+    </instructions>
     """
 
     response = client.chat.completions.create(
