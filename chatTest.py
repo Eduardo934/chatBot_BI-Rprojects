@@ -12,7 +12,7 @@ MODEL = "gpt-4o"
 DB_PATH = "example.db"
 
 # Fix SSL (only if needed)
-os.environ["SSL_CERT_FILE"] = "C:/Users/81014284/AppData/Local/.certifi/cacert.pem"
+# os.environ["SSL_CERT_FILE"] = "[PATH-SSL-CERTIFICATE]"
 
 # Initialize clients
 client = OpenAI(api_key=API_KEY)
